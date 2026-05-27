@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite both the manuscript and the archived code release."
+type: software
+title: "asd-rerun: Reproducibility code for ISCIENCE-D-26-03472"
+version: "1.0.0"
+date-released: "2026-05-26"
+authors:
+  - family-names: "Wen"
+    given-names: "Jing"
+    email: "loyys102202@163.com"
+    affiliation: "Department of Pediatrics, Guiyang Maternity and Child Health Hospital / Guiyang Children's Hospital, Guiyang, Guizhou, China"
+repository-code: "https://github.com/loyys102202/asd-rerun"
+license: MIT
+keywords:
+  - "autism spectrum disorder"
+  - "blood transcriptome"
+  - "monocyte"
+  - "LASSO"
+  - "stability selection"
+  - "external validation"
+  - "TRIPOD"
+  - "iScience"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Wen"
+      given-names: "Jing"
+  title: "A monocyte-tracking blood expression score reveals platform-specific dissociation between cellular composition and autism diagnosis"
+  journal: "iScience"
+  year: 2026
+  notes: "in revision (manuscript ISCIENCE-D-26-03472)"
