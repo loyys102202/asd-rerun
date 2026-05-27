@@ -1,126 +1,62 @@
-# asd-rerun v3 — full reproducibility code for ISCIENCE-D-26-03472
+# ASD blood expression score analysis
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXXX)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
+This repository contains the analysis code and workflow for the revised iScience manuscript:
 
-Complete pipeline + figures + tables for the manuscript
-*"A monocyte-tracking blood expression score reveals platform-specific
-dissociation between cellular composition and autism diagnosis"*
-(Jing Wen et al., *iScience*, in revision; manuscript ID **ISCIENCE-D-26-03472**).
+> **A monocyte-tracking blood expression score reveals platform-specific dissociation between cellular composition and autism diagnosis** &mdash; Jing Wen (manuscript ID ISCIENCE-D-26-03472)
 
-> **Note**: the Zenodo DOI badge above shows `XXXXXXXX` as a placeholder.
-> After the first Zenodo release is published, replace `XXXXXXXX` with the
-> real DOI suffix in this README, in `CITATION.cff`, and in the three
-> manuscript docx files (Manuscript / Title Page / Cover Letter).
+The study reanalyses public GEO pediatric blood transcriptome datasets to evaluate the transportability of an exploratory blood expression score across platforms, blood-fraction preparations, and analytic cohorts. The score is not intended as a clinically deployable diagnostic test.
 
-## Quick start
+## Scope and framing
 
-```bash
-pip install -r requirements.txt
+This is a reproducibility and methods-transparency package supporting an **exploratory biomarker/signature discovery** study. The reported score:
 
-# Option A — full reproduction from GEO (downloads ~1 GB raw data):
-bash run_all.sh
+- was trained in a single male-only pediatric whole-blood cohort (GSE18123-GPL570, n = 99),
+- shows partial transportability to a same-series cross-platform cohort (GSE18123-GPL6244),
+- does **not** discriminate autism in a fully independent leukocyte cohort (GSE42133),
+- does **not** transport without re-fitting to a lymphocyte-enriched cohort (GSE25507),
+- but tracks monocyte-marker expression consistently in all four cohorts.
 
-# Option B — just regenerate figures and tables from precomputed
-# artifacts (extract asd-data.zip into this directory first):
-bash run_all.sh figures
-```
+The repository should not be interpreted as supporting a validated clinical classifier.
 
-## Repository structure
+## Contents
 
-```
-asd-rerun/
-├── README.md, LICENSE, requirements.txt, run_all.sh
-│
-├── config.py                          cohort definitions + hyperparameters
-├── pipeline.py                        shared utilities (download, preprocess, scoring)
-│
-├── 01_download_geo.py                 fetch GSE18123 + GSE42133 + GSE25507
-├── 02_preprocess.py                   log2 → IQR-max probe-to-gene
-├── 03_common_genes.py                 GPL570 ∩ GPL6244 = 17,923 common genes
-├── 04_nested_cv.py                    100 × 5-fold nested CV + stability selection
-├── 05_lock_panel.py                   lock 7-gene panel at 60 % stability threshold
-├── 06_bootstrap.py                    .632 bootstrap optimism correction
-├── 07_permutation_train.py            training permutation null (1000 perms)
-├── 08_external_GPL6244.py             platform-adapted + strict + recalibration
-├── 09_external_GSE42133.py            6-gene refit + 7-gene zero-fill
-├── 10_tissue_boundary_GSE25507.py     adapted + within-tissue refit
-├── 11_cell_markers.py                 8 cell-type marker correlations
-├── 11b_precompute_fold_change.py      bootstrap fold change for S Fig 1 panel C
-├── 12_make_results_table.py           collates artifacts into Tables 2-4
-│
-├── figures/
-│   ├── fig_style.py                   shared matplotlib style + helpers
-│   ├── 13_make_fig1.py                Figure 1: study design schematic
-│   ├── 14_make_fig2.py                Figure 2: locked 7-gene panel
-│   ├── 15_make_fig3.py                Figure 3: internal validation on GPL570
-│   ├── 16_make_fig4.py                Figure 4: GPL6244 external validation
-│   ├── 17_make_fig5.py                Figure 5: GSE42133 + GSE25507 ROC
-│   ├── 18_make_fig6.py                Figure 6: monocyte tracking
-│   ├── 19_make_graphical_abstract.py  graphical abstract (SVG + PNG + PDF)
-│   ├── 20_make_sfig1.py               S Fig 1: 7-gene annotation landscape
-│   └── 21_make_sfig2.py               S Fig 2: LASSO regularisation path
-│
-└── tables/
-    ├── 22_make_main_tables.py         Tables 1-4 (three-line, black-and-white)
-    └── 23_make_supplementary_tables.py Tables S1-S5 (three-line, black-and-white)
-```
+- `01_download_geo.py` &mdash; download and unify the four GEO series
+- `02_preprocess.py` &mdash; probe-to-gene IQR-max aggregation, log2 retention
+- `03_common_genes.py` &mdash; cross-platform gene intersection (GPL570 &cap; GPL6244)
+- `04_nested_cv.py` &mdash; repeated nested cross-validation (100 repeats &times; 5 outer folds)
+- `05_lock_panel.py` &mdash; stability-selected locked 7-gene panel
+- `06_bootstrap.py` &mdash; 0.632 bootstrap optimism correction (B = 1,000)
+- `07_permutation_train.py` &mdash; label-permutation null on training cohort
+- `08_external_GPL6244.py` &mdash; same-series cross-platform external test
+- `09_external_GSE42133.py` &mdash; independent external test (training-cohort-refitted 6-gene reduced score, because ERVK3-2 is unavailable on Illumina HT-12 v4)
+- `10_tissue_boundary_GSE25507.py` &mdash; tissue-boundary analysis on lymphocyte-enriched samples
+- `11_cell_markers.py` &mdash; blood-cell marker correlation analysis (CIBERSORT LM22 + xCell reference panels)
+- `12_*` and `figures/`, `tables/` &mdash; figure and table generation scripts
 
-## Output deliverables produced by this code
+## Data
 
-| Deliverable | Producing script |
-|---|---|
-| `figures/output/Figure_1.{png,pdf,tiff}` | `13_make_fig1.py` |
-| `figures/output/Figure_2.{png,pdf,tiff}` | `14_make_fig2.py` |
-| `figures/output/Figure_3.{png,pdf,tiff}` | `15_make_fig3.py` |
-| `figures/output/Figure_4.{png,pdf,tiff}` | `16_make_fig4.py` |
-| `figures/output/Figure_5.{png,pdf,tiff}` | `17_make_fig5.py` |
-| `figures/output/Figure_6.{png,pdf,tiff}` | `18_make_fig6.py` |
-| `figures/output/Graphical_Abstract.{png,pdf,svg}` | `19_make_graphical_abstract.py` |
-| `figures/output/Supplementary_Figure_1.{png,pdf,tiff}` | `20_make_sfig1.py` |
-| `figures/output/Supplementary_Figure_2.{png,pdf,tiff}` | `21_make_sfig2.py` |
-| `Tables_revised.docx` (4 main tables) | `tables/22_make_main_tables.py` |
-| `Supplementary_Tables.docx` (5 supp tables) | `tables/23_make_supplementary_tables.py` |
+All datasets analysed in this study are public NCBI GEO datasets:
 
-All TIFFs at 300 dpi, LZW compression.  PDFs with embedded TrueType
-fonts (fonttype 42).  Tables in black-and-white three-line format with
-Times New Roman.
+- GSE18123 (sub-cohorts on GPL570 and GPL6244)
+- GSE42133
+- GSE25507
 
-## Sanity-check (numbers this code must reproduce)
+No new patient samples were collected. No human-subject data are deposited in this repository.
 
-| Cohort                        | Code | Manuscript |
-|---|---|---|
-| GSE18123-GPL570 (apparent)    | 0.9421 | 0.9421 |
-| Nested CV mean                | 0.762  | 0.762  |
-| Bootstrap .632 corrected      | 0.891  | 0.891  |
-| GSE18123-GPL6244 adapted      | 0.6890 | 0.6890 |
-| GPL6244 males                 | 0.7044 | 0.7047 |
-| GPL6244 females               | 0.6397 | 0.6342 |
-| GSE42133 6-gene refit         | 0.4195 | 0.4195 |
-| GSE42133 7-gene zero-fill     | 0.4209 | 0.4209 |
-| GSE25507 adapted              | 0.4636 | 0.4636 |
-| GSE25507 within-tissue refit  | 0.620  | 0.620  |
-| Monocyte Pearson r (4 cohorts) | +0.41 to +0.57 |
+## Code availability
 
-All numbers match to four decimal places.  Random seeds (= 42) are set
-in `config.py`.
+The complete analysis workflow is provided in this repository. A permanent archived version is available at Zenodo: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20404078.svg)](https://doi.org/10.5281/zenodo.20404078)
 
-## Software versions tested
+Citation file: `CITATION.cff`. Random seed `42` is used throughout. End-to-end reproduction: `bash run_all.sh`.
 
-- Python 3.10 / 3.12
-- numpy ≥ 1.24, pandas ≥ 2.0, scipy ≥ 1.10
-- scikit-learn ≥ 1.3, statsmodels ≥ 0.14
-- matplotlib ≥ 3.7, pyarrow ≥ 14, python-docx ≥ 1.1
+## Environment
+
+Python 3.11 with the package versions pinned in `requirements.txt` (scikit-learn 1.5, statsmodels 0.14, NumPy 1.26, pandas 2.2, SciPy 1.13, matplotlib 3.9).
+
+## Important note
+
+This repository supports an exploratory blood-transcriptome signature-discovery study. The reported score should not be interpreted as a validated clinical diagnostic classifier. Female generalisability is not established because the discovery cohort was male-only and female external testing was underpowered.
 
 ## License
 
-MIT (see `LICENSE`).
-
-## Citation
-
-> Wen J. et al. (2026).  A monocyte-tracking blood expression score reveals
-> platform-specific dissociation between cellular composition and autism
-> diagnosis.  *iScience*, in revision.
->
-> Code archive: Zenodo DOI 10.5281/zenodo.XXXXXXXX
+MIT, see `LICENSE`.
