@@ -63,7 +63,7 @@ asd-rerun/
 │
 └── tables/
     ├── 22_make_main_tables.py         Tables 1-4 (three-line, black-and-white)
-    └── 23_make_supplementary_tables.py Tables S1-S5 (three-line, black-and-white)
+    └── 23_make_supplementary_tables.py Tables S1-S6 (three-line, black-and-white)
 ```
 
 ## Output deliverables produced by this code
@@ -80,7 +80,7 @@ asd-rerun/
 | `figures/output/Supplementary_Figure_1.{png,pdf,tiff}` | `20_make_sfig1.py` |
 | `figures/output/Supplementary_Figure_2.{png,pdf,tiff}` | `21_make_sfig2.py` |
 | `Tables_revised.docx` (4 main tables) | `tables/22_make_main_tables.py` |
-| `Supplementary_Tables.docx` (5 supp tables) | `tables/23_make_supplementary_tables.py` |
+| `Supplementary_Tables.docx` (6 supp tables) | `tables/23_make_supplementary_tables.py` |
 
 All TIFFs at 300 dpi, LZW compression.  PDFs with embedded TrueType
 fonts (fonttype 42).  Tables in black-and-white three-line format with
@@ -120,6 +120,6 @@ MIT (see `LICENSE`).
 
 > Wen J. et al. (2026).  A monocyte-tracking blood expression score reveals
 > platform-specific dissociation between cellular composition and autism
-> diagnosis.  *iScience*, in revision.
+> case-control status.  *iScience*, in revision.
 >
 > Code archive: Zenodo DOI 10.5281/zenodo.20404078
