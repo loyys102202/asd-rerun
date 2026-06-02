@@ -4,6 +4,7 @@ type: software
 title: "asd-rerun: Reproducibility code for ISCIENCE-D-26-03472"
 version: "1.0.0"
 date-released: "2026-05-26"
+doi: "10.5281/zenodo.20404078"
 authors:
   - family-names: "Wen"
     given-names: "Jing"
@@ -25,7 +26,7 @@ preferred-citation:
   authors:
     - family-names: "Wen"
       given-names: "Jing"
-  title: "A monocyte-tracking blood expression score reveals platform-specific dissociation between cellular composition and autism diagnosis"
+  title: "A monocyte-tracking blood expression score reveals platform-specific dissociation between cellular composition and autism case-control status"
   journal: "iScience"
   year: 2026
   notes: "in revision (manuscript ISCIENCE-D-26-03472)"
