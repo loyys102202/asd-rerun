@@ -82,6 +82,7 @@ auc_by_rep = pd.read_csv('../nestedcv_auc_by_rep.csv')
 n_genes = pd.read_csv('../nestedcv_n_genes.csv')
 with open('../cell_marker_analysis.json') as f: cm = json.load(f)
 with open('../cell_marker_GSE42133.json') as f: cm42 = json.load(f)
+with open('../locked_model_reduced_6gene.json') as f: m6 = json.load(f)
 with open('../GSE25507_exploration.json') as f: g25 = json.load(f)
 ph = {key: pd.read_csv(f'../phenotype_{key}.csv') for key in ['GPL570','GPL6244','GSE42133','GSE25507']}
 
@@ -245,13 +246,47 @@ s5.append(["Summary","—","—","—","—","—",
             f"{g25['n_genes_concordant']} / {g25['n_genes_total']} concordant"])
 make_three_line_table(doc, s5, font_size=8)
 
+# Table S6
+add_caption(doc, "Table S6.  Illumina-adapted six-gene LP6 model used for "
+                  "GSE42133.  The six panel genes mappable on Illumina HT-12 "
+                  "v4 (GPL10558) after removing ERVK3-2, with coefficients, "
+                  "intercept, and GSE18123-GPL570 training-set scaling "
+                  "parameters.")
+_dir6 = {"KYNU":"Up in ASD","CMYA5":"Up in ASD","MAPK8IP1":"Up in ASD",
+         "CES1":"Up in ASD","KIAA0087":"Down in ASD","POU2AF1":"Down in ASD"}
+_order6 = ["KYNU","CMYA5","MAPK8IP1","CES1","KIAA0087","POU2AF1"]
+s6 = [["Gene","LP6 coefficient (logit)","GPL570 training mean (log\u2082)",
+       "GPL570 training SD (log\u2082)","Note"]]
+for g in _order6:
+    s6.append([g, f"{m6['coefficients'][g]:+.4f}",
+               f"{m6['train_mean'][g]:.3f}", f"{m6['train_sd'][g]:.3f}",
+               _dir6[g]])
+s6.append(["Intercept (\u03b2\u2080)", f"{m6['intercept']:+.4f}", "\u2014", "\u2014", "\u2014"])
+make_three_line_table(doc, s6, font_size=9)
+
+note6 = doc.add_paragraph()
+note6.paragraph_format.space_before = Pt(8)
+n6 = note6.add_run("LP6 was refitted only in the original GSE18123-GPL570 "
+                   "training cohort after removing ERVK3-2, which has no "
+                   "reliable probe on GPL10558.  No GSE42133 outcome labels "
+                   "were used for coefficient estimation, model selection, or "
+                   "tuning.  GSE42133 expression values were mapped to gene "
+                   "symbols and standardized with the platform-adapted z-score "
+                   "strategy (per-cohort mean and standard deviation) before "
+                   "applying the locked LP6 formula.  Coefficients were "
+                   "estimated by L1-penalized logistic regression with the "
+                   "same inner cross-validation and solver settings as the "
+                   f"seven-gene model; the apparent training-set AUC of the "
+                   f"six-gene fit was {m6.get('apparent_auc', float('nan')):.3f}.")
+n6.font.size = Pt(9); n6.font.italic = True; n6.font.name = 'Times New Roman'
+
 foot = doc.add_paragraph()
 foot.paragraph_format.space_before = Pt(8)
 fr = foot.add_run("All numerical values were extracted from the locked "
                    "pipeline artifacts shipped with the asd-rerun code "
-                   "package, and can be reproduced by running 04_nested_cv.py, "
-                   "10_tissue_boundary_GSE25507.py and 11_cell_markers.py "
-                   "with seed = 42.")
+                   "package and can be reproduced by running bash run_all.sh "
+                   "with seed = 42; the GSE42133-specific external "
+                   "evaluation is implemented in 09_external_GSE42133.py.")
 fr.font.size = Pt(9); fr.font.italic = True; fr.font.name = 'Times New Roman'
 
 doc.save('../Supplementary_Tables.docx')
