@@ -88,22 +88,22 @@ Times New Roman.
 
 ## Sanity-check (numbers this code must reproduce)
 
-| Cohort                        | Code | Manuscript |
+| Cohort                        | Code (4 dp) | Manuscript (rounded) |
 |---|---|---|
-| GSE18123-GPL570 (apparent)    | 0.9421 | 0.9421 |
-| Nested CV mean                | 0.762  | 0.762  |
-| Bootstrap .632 corrected      | 0.891  | 0.891  |
-| GSE18123-GPL6244 adapted      | 0.6890 | 0.6890 |
-| GPL6244 males                 | 0.7044 | 0.7047 |
-| GPL6244 females               | 0.6397 | 0.6342 |
-| GSE42133 6-gene refit         | 0.4195 | 0.4195 |
-| GSE42133 7-gene zero-fill     | 0.4209 | 0.4209 |
-| GSE25507 adapted              | 0.4636 | 0.4636 |
-| GSE25507 within-tissue refit  | 0.620  | 0.620  |
-| Monocyte Pearson r (4 cohorts) | +0.41 to +0.57 |
+| GSE18123-GPL570 (apparent)    | 0.9421 | 0.942 |
+| Nested CV mean                | 0.7620 | 0.762 |
+| Bootstrap .632 corrected      | 0.8910 | 0.891 |
+| GSE18123-GPL6244 adapted      | 0.6890 | 0.689 |
+| GPL6244 males                 | 0.7044 | 0.704 |
+| GPL6244 females               | 0.6397 | 0.640 |
+| GSE42133 6-gene refit         | 0.4195 | 0.420 |
+| GSE42133 7-gene zero-fill     | 0.4209 | 0.421 |
+| GSE25507 adapted              | 0.4636 | 0.464 |
+| GSE25507 within-tissue refit  | 0.6200 | 0.620 |
+| Monocyte Pearson r (4 cohorts) | +0.41 to +0.57 | +0.41 to +0.57 |
 
-All numbers match to four decimal places.  Random seeds (= 42) are set
-in `config.py`.
+Code outputs reproduce the submitted rounded manuscript values.  Random
+seeds (= 42) are set in `config.py`.
 
 ## Software versions tested
 
