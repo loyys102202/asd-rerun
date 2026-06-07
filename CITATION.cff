@@ -3,12 +3,12 @@ message: "If you use this code, please cite both the manuscript and the archived
 type: software
 title: "asd-rerun: Reproducibility code for ISCIENCE-D-26-03472"
 version: "1.0.0"
-date-released: "2026-06-03"
+date-released: "2026-05-26"
 authors:
   - family-names: "Wen"
     given-names: "Jing"
     email: "loyys102202@163.com"
-    affiliation: "Medical Affairs Department, Guiyang Maternal and Child Health Care Hospital, Guiyang, Guizhou, China"
+    affiliation: "Medical Affairs Department, Guiyang Maternal and Child Health Care Hospital, Guiyang, Guizhou 550003, China"
 repository-code: "https://github.com/loyys102202/asd-rerun"
 doi: "10.5281/zenodo.20404078"
 license: MIT
@@ -26,9 +26,7 @@ preferred-citation:
   authors:
     - family-names: "Wen"
       given-names: "Jing"
-      affiliation: "Medical Affairs Department, Guiyang Maternal and Child Health Care Hospital, Guiyang, Guizhou, China"
   title: "A monocyte-tracking blood expression score reveals platform-specific dissociation between cellular composition and autism case-control status"
   journal: "iScience"
   year: 2026
-  doi: "10.5281/zenodo.20404078"
   notes: "in revision (manuscript ISCIENCE-D-26-03472)"
