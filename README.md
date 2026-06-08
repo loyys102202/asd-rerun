@@ -1,4 +1,4 @@
-# asd-rerun v3 — full reproducibility code for ISCIENCE-D-26-03472
+# asd-rerun v1 — full reproducibility code for ISCIENCE-D-26-03472
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20404078.svg)](https://doi.org/10.5281/zenodo.20404078)
@@ -7,7 +7,7 @@
 Complete pipeline + figures + tables for the manuscript
 *"A monocyte-tracking blood expression score reveals platform-specific
 dissociation between cellular composition and autism case-control status"*
-(Jing Wen, *iScience*, in revision; manuscript ID **ISCIENCE-D-26-03472**).
+(Jing Wen et al., *iScience*, in revision; manuscript ID **ISCIENCE-D-26-03472**).
 
 > **Archived release**: this code is archived on Zenodo at
 > [https://doi.org/10.5281/zenodo.20404078](https://doi.org/10.5281/zenodo.20404078)
@@ -40,7 +40,7 @@ asd-rerun/
 ├── 03_common_genes.py                 GPL570 ∩ GPL6244 = 17,923 common genes
 ├── 04_nested_cv.py                    100 × 5-fold nested CV + stability selection
 ├── 05_lock_panel.py                   lock 7-gene panel at 60 % stability threshold
-├── 06_bootstrap.py                    bootstrap optimism correction
+├── 06_bootstrap.py                    bootstrap optimism correction (apparent − mean optimism)
 ├── 07_permutation_train.py            training permutation null (1000 perms)
 ├── 08_external_GPL6244.py             platform-adapted + strict + recalibration
 ├── 09_external_GSE42133.py            6-gene refit + 7-gene zero-fill
@@ -88,22 +88,22 @@ Times New Roman.
 
 ## Sanity-check (numbers this code must reproduce)
 
-| Cohort                        | Code | Manuscript |
+| Cohort                        | Code (4 dp) | Manuscript (rounded) |
 |---|---|---|
-| GSE18123-GPL570 (apparent)    | 0.9421 | 0.9421 |
-| Nested CV mean                | 0.762  | 0.762  |
-| Bootstrap optimism-corrected  | 0.891  | 0.891  |
-| GSE18123-GPL6244 adapted      | 0.6890 | 0.6890 |
-| GPL6244 males                 | 0.7044 | 0.7044 |
-| GPL6244 females               | 0.6397 | 0.6397 |
-| GSE42133 6-gene refit         | 0.4195 | 0.4195 |
-| GSE42133 7-gene zero-fill     | 0.4209 | 0.4209 |
-| GSE25507 adapted              | 0.4636 | 0.4636 |
-| GSE25507 within-tissue refit  | 0.620  | 0.620  |
-| Monocyte Pearson r (4 cohorts) | +0.41 to +0.57 |
+| GSE18123-GPL570 (apparent)    | 0.9421 | 0.942 |
+| Nested CV mean                | 0.7620 | 0.762 |
+| Bootstrap optimism-corrected  | 0.8910 | 0.891 |
+| GSE18123-GPL6244 adapted      | 0.6890 | 0.689 |
+| GPL6244 males                 | 0.7044 | 0.704 |
+| GPL6244 females               | 0.6397 | 0.640 |
+| GSE42133 6-gene refit         | 0.4195 | 0.420 |
+| GSE42133 7-gene zero-fill     | 0.4209 | 0.421 |
+| GSE25507 adapted              | 0.4636 | 0.464 |
+| GSE25507 within-tissue refit  | 0.6200 | 0.620 |
+| Monocyte Pearson r (4 cohorts) | +0.41 to +0.57 | +0.41 to +0.57 |
 
-All numbers match to four decimal places.  Random seeds (= 42) are set
-in `config.py`.
+Code outputs reproduce the submitted rounded manuscript values.  Random
+seeds (= 42) are set in `config.py`.
 
 ## Software versions tested
 
@@ -118,7 +118,7 @@ MIT (see `LICENSE`).
 
 ## Citation
 
-> Wen, J. (2026).  A monocyte-tracking blood expression score reveals
+> Wen J. et al. (2026).  A monocyte-tracking blood expression score reveals
 > platform-specific dissociation between cellular composition and autism
 > case-control status.  *iScience*, in revision.
 >
